@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import CampoEntrada from '../components/CampoEntrada/CampoEntrada'
+import CampoEscala from '../components/CampoEscala/CampoEscala'
 import CampoFecha from '../components/CampoFecha/CampoFecha'
 import CampoSelect from '../components/CampoSelect/CampoSelect'
 import ListaControles from '../components/ListaControles/ListaControles'
@@ -23,14 +24,6 @@ export type Grupo = {
 function textoEscala(escala: Escala[], numero: number) {
   const e = escala.find((x) => x.numero === numero)
   return <span title={e?.descripcion}>{e?.valor ?? numero}</span>
-}
-
-function opcionesEscala(escala: Escala[]) {
-  return escala.map((e) => ({
-    valor: String(e.numero),
-    etiqueta: e.valor,
-    descripcion: e.descripcion,
-  }))
 }
 
 function textoEditable(campo: keyof Borrador, etiqueta: string, lista?: string, placeholder?: string) {
@@ -131,9 +124,9 @@ export const grupos: Grupo[] = [
         className: 'centro col-escala',
         ver: (r, cat) => textoEscala(cat.severidad, r.severidad),
         editar: (b, cambiar, cat) => (
-          <CampoSelect
+          <CampoEscala
             valor={b.severidad}
-            opciones={opcionesEscala(cat.severidad)}
+            escala={cat.severidad}
             onChange={(v) => cambiar('severidad', v)}
             etiqueta="Severidad"
           />
@@ -144,9 +137,9 @@ export const grupos: Grupo[] = [
         className: 'centro col-escala',
         ver: (r, cat) => textoEscala(cat.probabilidad, r.probabilidad),
         editar: (b, cambiar, cat) => (
-          <CampoSelect
+          <CampoEscala
             valor={b.probabilidad}
-            opciones={opcionesEscala(cat.probabilidad)}
+            escala={cat.probabilidad}
             onChange={(v) => cambiar('probabilidad', v)}
             etiqueta="Probabilidad"
           />

@@ -1,0 +1,25 @@
+.tabla-escala {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.tabla-escala th,
+.tabla-escala td {
+  border: 1px solid var(--border-strong);
+  padding: 8px 10px;
+  vertical-align: top;
+}
+
+.tabla-escala th {
+  background: var(--header-bg);
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.tabla-escala-nivel {
+  font-weight: 600;
+  white-space: nowrap;
+}

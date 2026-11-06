@@ -1,0 +1,31 @@
+.campo-escala {
+  position: relative;
+}
+
+/* Espacio para el botón "i", que va junto a la flecha del select */
+.campo-escala .campo-select {
+  padding-right: 50px;
+}
+
+.campo-escala-info {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.campo-escala-info:hover {
+  color: var(--accent);
+}
+
+.campo-escala-info:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}

@@ -14,29 +14,27 @@
   font-weight: 700;
   font-size: 13px;
   background: var(--header-bg);
+  color: #000;
 }
 
 .nivel-extremo {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #ff0000;
 }
 
 .nivel-alto {
-  background: #ffedd5;
-  color: #9a3412;
+  background: #e36c0a;
 }
 
 .nivel-importante {
-  background: #fef9c3;
-  color: #854d0e;
+  background: #fac090;
 }
 
 .nivel-moderado {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #ffff00;
 }
 
+/* Blanco según la matriz oficial; el borde lo mantiene visible en tema claro */
 .nivel-bajo {
-  background: #dcfce7;
-  color: #166534;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--border-strong);
 }

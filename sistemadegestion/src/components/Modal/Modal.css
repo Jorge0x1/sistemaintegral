@@ -1,0 +1,33 @@
+/* Sin padding en el dialog: un clic directo sobre él solo puede ser en el fondo */
+.modal {
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.modal::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+.modal-contenido {
+  padding: 16px 20px 20px;
+}
+
+.modal-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.modal-encabezado h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-h);
+}

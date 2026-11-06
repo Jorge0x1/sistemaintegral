@@ -1,9 +1,8 @@
 import './CampoSelect.css'
 
-export type OpcionSelect = {
+type OpcionSelect = {
   valor: string
   etiqueta: string
-  descripcion?: string
 }
 
 type Props = {
@@ -14,18 +13,16 @@ type Props = {
 }
 
 function CampoSelect({ valor, opciones, onChange, etiqueta }: Props) {
-  const actual = opciones.find((o) => o.valor === valor)
   return (
     <select
       className="campo-select"
       value={valor}
       onChange={(e) => onChange(e.target.value)}
-      title={actual?.descripcion}
       aria-label={etiqueta}
     >
       <option value="">—</option>
       {opciones.map((o) => (
-        <option key={o.valor} value={o.valor} title={o.descripcion}>
+        <option key={o.valor} value={o.valor}>
           {o.etiqueta}
         </option>
       ))}

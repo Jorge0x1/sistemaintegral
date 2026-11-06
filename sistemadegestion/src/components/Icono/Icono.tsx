@@ -6,6 +6,7 @@ const iconos = {
   borrar: <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />,
   guardar: <path d="M5 12l5 5L20 7" />,
   cancelar: <path d="M6 6l12 12M18 6L6 18" />,
+  info: <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01" />,
   calendario: <path d="M7 3v4M17 3v4M4 10h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" />,
 }
 
