@@ -13,6 +13,7 @@ export function borradorVacio(): Borrador {
     severidad: '',
     probabilidad: '',
     folio: 'NA',
+    efectividad: '',
   }
 }
 
@@ -20,6 +21,7 @@ export function aBorrador(r: Riesgo): Borrador {
   return {
     ...r,
     fecha_incorporacion: r.fecha_incorporacion ?? '',
+    efectividad: r.efectividad ?? '',
     controles: r.controles.join(', '),
     severidad: String(r.severidad),
     probabilidad: String(r.probabilidad),
@@ -42,6 +44,7 @@ export function aRiesgo(b: Borrador): RiesgoInput {
     severidad: Number(b.severidad),
     probabilidad: Number(b.probabilidad),
     folio: b.folio.trim() || 'NA',
+    efectividad: b.efectividad || null,
   }
 }
 

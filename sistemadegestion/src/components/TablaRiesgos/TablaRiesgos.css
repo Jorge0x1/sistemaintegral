@@ -1,26 +1,48 @@
 .tabla-contenedor {
   overflow-x: auto;
-  border: 2px solid var(--text-h);
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
 .matriz {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .matriz th,
 .matriz td {
-  border: 1px solid var(--border-strong);
-  padding: 8px 10px;
+  border: 1px solid var(--border);
+  padding: 11px 12px;
   vertical-align: middle;
+}
+
+/* El contenedor ya dibuja el contorno: sin esto se vería doble */
+.matriz tr > :first-child {
+  border-left: none;
+}
+
+.matriz tr > :last-child {
+  border-right: none;
+}
+
+.matriz thead tr:first-child th {
+  border-top: none;
+}
+
+.matriz tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .matriz th {
   background: var(--header-bg);
-  color: var(--text-h);
+  color: var(--text);
+  font-size: 13px;
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
@@ -28,12 +50,13 @@
 
 .matriz th.grupo {
   background: var(--group-bg);
-  font-size: 15px;
-  border-bottom-width: 2px;
+  color: var(--text-h);
+  font-size: 14px;
 }
 
 .matriz td {
   color: var(--text-h);
+  transition: background 0.12s ease;
 }
 
 .matriz .centro {
@@ -42,7 +65,7 @@
 
 .matriz .vacio {
   color: var(--text);
-  padding: 24px;
+  padding: 32px;
 }
 
 .acciones-th {

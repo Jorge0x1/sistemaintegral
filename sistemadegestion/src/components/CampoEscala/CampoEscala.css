@@ -13,18 +13,24 @@
   flex: none;
   display: inline-grid;
   place-items: center;
+  width: 26px;
+  height: 26px;
   padding: 0;
-  border: none;
-  background: none;
-  color: var(--text-h);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
   cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .campo-escala-info:hover {
-  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .campo-escala-info:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }

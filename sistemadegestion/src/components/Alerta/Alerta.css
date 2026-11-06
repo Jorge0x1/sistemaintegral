@@ -1,7 +1,8 @@
 .alerta {
   margin: 0 0 16px;
   padding: 10px 14px;
-  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--alert-text) 25%, transparent);
+  border-radius: 8px;
   background: var(--alert-bg);
   color: var(--alert-text);
   font-size: 14px;

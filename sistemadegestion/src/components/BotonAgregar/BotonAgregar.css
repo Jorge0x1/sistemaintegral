@@ -6,12 +6,13 @@
   border-radius: 50%;
   border: none;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   cursor: pointer;
+  transition: filter 0.15s ease;
 }
 
 .agregar:hover:not(:disabled) {
-  filter: brightness(1.1);
+  filter: brightness(1.08);
 }
 
 .agregar svg {

@@ -1,11 +1,12 @@
 .barra {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
 .barra h1 {
-  font-size: 28px;
+  font-size: 26px;
+  letter-spacing: -0.01em;
   margin: 0;
 }

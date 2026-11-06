@@ -11,6 +11,7 @@ export type Riesgo = {
   severidad: number
   probabilidad: number
   folio: string
+  efectividad: string | null
 }
 
 export type RiesgoInput = Omit<Riesgo, 'id'>
@@ -52,6 +53,7 @@ export type Borrador = {
   severidad: string
   probabilidad: string
   folio: string
+  efectividad: string
 }
 
 export type Cambiar = (campo: keyof Borrador, valor: string) => void

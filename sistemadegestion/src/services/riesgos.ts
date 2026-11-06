@@ -2,7 +2,7 @@ import { supabase } from './supabase'
 import type { Riesgo, RiesgoInput } from '../types/riesgos'
 
 const COLUMNAS_RIESGO =
-  'id, proceso, fecha_incorporacion, tipo_riesgo, fuente_actividad, evento_riesgo, causa, consecuencia_impacto, controles, severidad, probabilidad, folio'
+  'id, proceso, fecha_incorporacion, tipo_riesgo, fuente_actividad, evento_riesgo, causa, consecuencia_impacto, controles, severidad, probabilidad, folio, efectividad'
 
 export async function listarRiesgos(): Promise<Riesgo[]> {
   const { data, error } = await supabase.from('riesgos').select(COLUMNAS_RIESGO).order('id')

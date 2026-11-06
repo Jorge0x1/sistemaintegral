@@ -21,6 +21,8 @@ export type Grupo = {
   columnas: Columna[]
 }
 
+const EFECTIVIDADES = ['Efectivo', 'No Efectivo', 'En Proceso']
+
 function textoEscala(escala: Escala[], numero: number) {
   const e = escala.find((x) => x.numero === numero)
   return <span title={e?.descripcion}>{e?.valor ?? numero}</span>
@@ -40,7 +42,7 @@ function textoEditable(campo: keyof Borrador, etiqueta: string, lista?: string, 
 
 export const grupos: Grupo[] = [
   {
-    titulo: 'Matriz de riesgos',
+    titulo: 'Evento',
     columnas: [
       {
         titulo: 'N.',
@@ -165,13 +167,26 @@ export const grupos: Grupo[] = [
     ],
   },
   {
-    titulo: 'Evaluación',
+    titulo: 'Tratamiento de Riesgo',
     columnas: [
       {
         titulo: 'Folio (acciones)',
         className: 'centro col-corta',
         ver: (r) => r.folio,
         editar: textoEditable('folio', 'Folio (acciones)'),
+      },
+      {
+        titulo: 'Efectividad en el Periodo',
+        className: 'centro col-corta',
+        ver: (r) => r.efectividad ?? <SinValor />,
+        editar: (b, cambiar) => (
+          <CampoSelect
+            valor={b.efectividad}
+            opciones={EFECTIVIDADES.map((e) => ({ valor: e, etiqueta: e }))}
+            onChange={(v) => cambiar('efectividad', v)}
+            etiqueta="Efectividad en el Periodo"
+          />
+        ),
       },
     ],
   },
