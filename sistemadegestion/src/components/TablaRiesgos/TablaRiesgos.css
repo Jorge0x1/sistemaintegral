@@ -1,0 +1,59 @@
+.tabla-contenedor {
+  overflow-x: auto;
+  border: 2px solid var(--text-h);
+  border-radius: 6px;
+}
+
+.matriz {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.matriz th,
+.matriz td {
+  border: 1px solid var(--border-strong);
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+.matriz th {
+  background: var(--header-bg);
+  color: var(--text-h);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.matriz th.grupo {
+  background: var(--group-bg);
+  font-size: 15px;
+  border-bottom-width: 2px;
+}
+
+.matriz td {
+  color: var(--text-h);
+}
+
+.matriz .centro {
+  text-align: center;
+}
+
+.matriz .vacio {
+  color: var(--text);
+  padding: 24px;
+}
+
+.acciones-th {
+  min-width: 90px;
+}
+
+/* Anchos mínimos para que los campos de edición sean usables */
+.col-n { min-width: 40px; }
+.col-fecha { min-width: 140px; }
+.col-corta { min-width: 120px; }
+.col-escala { min-width: 150px; }
+.col-media { min-width: 190px; }
+.col-larga { min-width: 220px; }
+.col-nivel { min-width: 240px; }

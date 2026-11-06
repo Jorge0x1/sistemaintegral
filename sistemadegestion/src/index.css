@@ -55,3 +55,8 @@ h1 {
   font-weight: 600;
   color: var(--text-h);
 }
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

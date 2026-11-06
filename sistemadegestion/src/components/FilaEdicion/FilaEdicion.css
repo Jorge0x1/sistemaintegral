@@ -1,0 +1,4 @@
+.matriz tr.editando td {
+  background: var(--edit-bg);
+  padding: 6px;
+}

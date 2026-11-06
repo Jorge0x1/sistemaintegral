@@ -1,0 +1,3 @@
+.fila-riesgo:hover td {
+  background: var(--row-hover);
+}
