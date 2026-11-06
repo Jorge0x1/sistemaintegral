@@ -1,4 +1,4 @@
--- Matriz de riesgos: catálogos, matriz S×P, rangos de evaluación y registros
++-- Matriz de riesgos: catálogos, matriz S×P, rangos de evaluación y registros
 -- Ejecutar completo en Supabase → SQL Editor
 
 -- ───────────── Catálogos de una columna ─────────────
