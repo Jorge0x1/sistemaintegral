@@ -55,6 +55,12 @@ export const moduloOportunidades: Modulo<
       titulo: '',
       columnas: [
         {
+          titulo: 'N.',
+          className: 'centro col-n',
+          ver: (o) => o.id,
+          editar: () => <SinValor />,
+        },
+        {
           titulo: 'Enfoque',
           className: 'col-corta',
           ver: (o) => o.enfoque,
