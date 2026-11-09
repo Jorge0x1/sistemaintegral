@@ -2,17 +2,25 @@ import Alerta from '../Alerta/Alerta'
 import BotonAgregar from '../BotonAgregar/BotonAgregar'
 import BotonIcono from '../BotonIcono/BotonIcono'
 import Encabezado from '../Encabezado/Encabezado'
-import TablaRiesgos from '../TablaRiesgos/TablaRiesgos'
-import { useRiesgos } from '../../hooks/useRiesgos'
-import './GestionCalidad.css'
+import TablaRegistros from '../TablaRegistros/TablaRegistros'
+import { useRegistros } from '../../hooks/useRegistros'
+import type { Modulo, Registro } from '../../types/registros'
+import './PanelRegistros.css'
 
-function GestionCalidad({ onVolver }: { onVolver: () => void }) {
-  const r = useRiesgos()
+type Props<R extends Registro, I, B, C> = {
+  titulo: string
+  modulo: Modulo<R, I, B, C>
+  onVolver: () => void
+}
+
+// Dashboard completo de un módulo: encabezado, avisos y tabla editable
+function PanelRegistros<R extends Registro, I, B, C>({ titulo, modulo, onVolver }: Props<R, I, B, C>) {
+  const r = useRegistros(modulo)
 
   return (
     <main className="dashboard">
       <Encabezado
-        titulo="Gestión de Calidad"
+        titulo={titulo}
         inicio={
           <BotonIcono
             icono="atras"
@@ -23,7 +31,7 @@ function GestionCalidad({ onVolver }: { onVolver: () => void }) {
         }
       >
         <BotonAgregar
-          titulo="Agregar riesgo"
+          titulo={`Agregar ${modulo.nombre}`}
           disabled={!r.cat || r.editando !== null}
           onClick={r.nuevo}
         />
@@ -36,9 +44,13 @@ function GestionCalidad({ onVolver }: { onVolver: () => void }) {
       )}
       {r.aviso && <Alerta>{r.aviso}</Alerta>}
 
-      <TablaRiesgos
+      <TablaRegistros
+        grupos={modulo.grupos}
+        nombre={modulo.nombre}
+        textoVacio={modulo.textoVacio}
+        sugerencias={r.cat ? modulo.sugerencias(r.cat) : []}
         cat={r.cat}
-        riesgos={r.riesgos}
+        registros={r.registros}
         cargando={!r.cat && !r.errorCarga}
         editando={r.editando}
         borrador={r.borrador}
@@ -53,4 +65,4 @@ function GestionCalidad({ onVolver }: { onVolver: () => void }) {
   )
 }
 
-export default GestionCalidad
+export default PanelRegistros

@@ -1,4 +1,4 @@
-import type { Escala } from '../../types/riesgos'
+import type { Escala } from '../../types/registros'
 import './TablaEscala.css'
 
 // "1. Daños menores 2. Sin reclamo" → una línea por cada punto numerado

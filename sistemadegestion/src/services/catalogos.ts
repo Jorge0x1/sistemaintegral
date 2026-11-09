@@ -1,13 +1,15 @@
 import { supabase } from './supabase'
-import type { Catalogos, Escala, Rango } from '../types/riesgos'
+import type { Escala, Rango } from '../types/registros'
 
-async function nombres(tabla: string) {
+// Lectores genéricos de catálogos; cada módulo decide qué tablas usa
+
+export async function nombres(tabla: string) {
   const { data, error } = await supabase.from(tabla).select('nombre').order('nombre')
   if (error) throw new Error(`Tabla "${tabla}": ${error.message}`)
   return data.map((fila) => fila.nombre as string)
 }
 
-async function escala(tabla: string): Promise<Escala[]> {
+export async function escala(tabla: string): Promise<Escala[]> {
   const { data, error } = await supabase.from(tabla).select('valor, descripcion')
   if (error) throw new Error(`Tabla "${tabla}": ${error.message}`)
   return data
@@ -19,46 +21,20 @@ async function escala(tabla: string): Promise<Escala[]> {
     .sort((a, b) => a.numero - b.numero)
 }
 
-async function matriz() {
-  const { data, error } = await supabase
-    .from('matriz_riesgo')
-    .select('severidad, probabilidad, valor')
-  if (error) throw new Error(`Tabla "matriz_riesgo": ${error.message}`)
-  return new Map(data.map((c) => [`${c.severidad}-${c.probabilidad}`, c.valor as number]))
+// Matriz de dos ejes → Map con clave "eje1-eje2"
+export async function matriz(tabla: string, eje1: string, eje2: string) {
+  const { data, error } = await supabase.from(tabla).select(`${eje1}, ${eje2}, valor`)
+  if (error) throw new Error(`Tabla "${tabla}": ${error.message}`)
+  const filas = data as unknown as Record<string, number>[]
+  return new Map(filas.map((c) => [`${c[eje1]}-${c[eje2]}`, c.valor]))
 }
 
-async function evaluacion(): Promise<Rango[]> {
-  const { data, error } = await supabase.from('evaluacion_riesgos').select('rango, descripcion')
-  if (error) throw new Error(`Tabla "evaluacion_riesgos": ${error.message}`)
+export async function rangos(tabla: string): Promise<Rango[]> {
+  const { data, error } = await supabase.from(tabla).select('rango, descripcion')
+  if (error) throw new Error(`Tabla "${tabla}": ${error.message}`)
   return data.flatMap((fila) => {
     // "1 al 8" → { min: 1, max: 8 }
     const m = /(\d+)\D+(\d+)/.exec(fila.rango)
     return m ? [{ min: Number(m[1]), max: Number(m[2]), descripcion: fila.descripcion }] : []
   })
-}
-
-export async function cargarCatalogos(): Promise<Catalogos> {
-  const [procesos, tiposRiesgo, fuentes, causas, consecuencias, sev, prob, mat, evalua] =
-    await Promise.all([
-      nombres('procesos'),
-      nombres('tipo_riesgo'),
-      nombres('fuente_actividad'),
-      nombres('causa'),
-      nombres('consecuencia_impacto'),
-      escala('severidad'),
-      escala('probabilidad'),
-      matriz(),
-      evaluacion(),
-    ])
-  return {
-    procesos,
-    tiposRiesgo,
-    fuentes,
-    causas,
-    consecuencias,
-    severidad: sev,
-    probabilidad: prob,
-    matriz: mat,
-    evaluacion: evalua,
-  }
 }

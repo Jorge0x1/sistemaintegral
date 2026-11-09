@@ -1,0 +1,53 @@
+.nivel {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--header-bg);
+  color: #000;
+}
+
+/* Blanco según las matrices oficiales; el borde lo mantiene visible en tema claro */
+.nivel-bajo,
+.nivel-intrascendente {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+/* Riesgos (evaluacion_riesgos) */
+.nivel-extremo {
+  background: #ff0000;
+}
+
+.nivel-alto {
+  background: #e36c0a;
+}
+
+.nivel-importante {
+  background: #fac090;
+}
+
+.nivel-moderado {
+  background: #ffff00;
+}
+
+/* Oportunidades (evaluacion_oportunidades) */
+.nivel-prioritaria {
+  background: #00ff00;
+}
+
+.nivel-destacada {
+  background: #b7f7b7;
+}
+
+.nivel-adecuada {
+  background: #fbdcc8;
+}
+
+.nivel-factible {
+  background: #ffff00;
+}

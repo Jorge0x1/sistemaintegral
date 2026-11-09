@@ -28,8 +28,15 @@
   background: var(--accent);
 }
 
+.bienvenida-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
 .bienvenida-boton {
-  min-width: 240px;
+  min-width: 260px;
   padding: 12px 28px;
   border: none;
   border-radius: 8px;

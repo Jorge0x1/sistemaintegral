@@ -3,7 +3,7 @@ import CampoSelect from '../CampoSelect/CampoSelect'
 import Icono from '../Icono/Icono'
 import Modal from '../Modal/Modal'
 import TablaEscala from '../TablaEscala/TablaEscala'
-import type { Escala } from '../../types/riesgos'
+import type { Escala } from '../../types/registros'
 import './CampoEscala.css'
 
 type Props = {

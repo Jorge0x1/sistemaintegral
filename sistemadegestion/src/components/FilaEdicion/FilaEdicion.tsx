@@ -1,20 +1,28 @@
 import type { KeyboardEvent } from 'react'
 import BotonIcono from '../BotonIcono/BotonIcono'
 import CeldaAcciones from '../CeldaAcciones/CeldaAcciones'
-import { columnas } from '../../config/columnasRiesgos'
-import type { Borrador, Cambiar, Catalogos } from '../../types/riesgos'
+import type { Cambiar, Columna } from '../../types/registros'
 import './FilaEdicion.css'
 
-type Props = {
-  borrador: Borrador
-  cat: Catalogos
+type Props<R, B, C> = {
+  borrador: B
+  columnas: Columna<R, B, C>[]
+  cat: C
   guardando: boolean
-  cambiar: Cambiar
+  cambiar: Cambiar<B>
   onGuardar: () => void
   onCancelar: () => void
 }
 
-function FilaEdicion({ borrador, cat, guardando, cambiar, onGuardar, onCancelar }: Props) {
+function FilaEdicion<R, B, C>({
+  borrador,
+  columnas,
+  cat,
+  guardando,
+  cambiar,
+  onGuardar,
+  onCancelar,
+}: Props<R, B, C>) {
   function teclas(e: KeyboardEvent) {
     if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT') onGuardar()
     if (e.key === 'Escape') onCancelar()

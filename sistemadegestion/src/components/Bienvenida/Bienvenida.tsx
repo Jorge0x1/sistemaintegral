@@ -1,12 +1,22 @@
 import './Bienvenida.css'
 
-function Bienvenida({ onAbrir }: { onAbrir: () => void }) {
+type Props = {
+  onCalidad: () => void
+  onOportunidades: () => void
+}
+
+function Bienvenida({ onCalidad, onOportunidades }: Props) {
   return (
     <main className="bienvenida">
       <h1>Sistema de Gestión Integral</h1>
-      <button type="button" className="bienvenida-boton" onClick={onAbrir}>
-        Gestión de Calidad
-      </button>
+      <div className="bienvenida-acciones">
+        <button type="button" className="bienvenida-boton" onClick={onCalidad}>
+          Gestión de Calidad
+        </button>
+        <button type="button" className="bienvenida-boton" onClick={onOportunidades}>
+          Evaluación de Oportunidades
+        </button>
+      </div>
     </main>
   )
 }

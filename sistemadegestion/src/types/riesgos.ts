@@ -1,3 +1,5 @@
+import type { Escala, Rango } from './registros'
+
 export type Riesgo = {
   id: number
   proceso: string
@@ -16,19 +18,7 @@ export type Riesgo = {
 
 export type RiesgoInput = Omit<Riesgo, 'id'>
 
-export type Escala = {
-  numero: number
-  valor: string
-  descripcion: string
-}
-
-export type Rango = {
-  min: number
-  max: number
-  descripcion: string
-}
-
-export type Catalogos = {
+export type CatalogosRiesgos = {
   procesos: string[]
   tiposRiesgo: string[]
   fuentes: string[]
@@ -41,7 +31,7 @@ export type Catalogos = {
 }
 
 // Valores del formulario tal como se escriben (controles separados por comas, S y P como texto)
-export type Borrador = {
+export type BorradorRiesgo = {
   proceso: string
   fecha_incorporacion: string
   tipo_riesgo: string
@@ -55,10 +45,3 @@ export type Borrador = {
   folio: string
   efectividad: string
 }
-
-export type Cambiar = (campo: keyof Borrador, valor: string) => void
-
-export const NUEVO = 'nuevo'
-
-// Fila en edición: el id de un riesgo, NUEVO para uno por crear, o null si no se edita nada
-export type Editando = number | typeof NUEVO | null

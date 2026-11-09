@@ -1,37 +1,34 @@
-import { supabase } from './supabase'
-import type { Riesgo, RiesgoInput } from '../types/riesgos'
+import { escala, matriz, nombres, rangos } from './catalogos'
+import { tablaRegistros } from './registros'
+import type { CatalogosRiesgos, Riesgo, RiesgoInput } from '../types/riesgos'
 
-const COLUMNAS_RIESGO =
+const COLUMNAS =
   'id, proceso, fecha_incorporacion, tipo_riesgo, fuente_actividad, evento_riesgo, causa, consecuencia_impacto, controles, severidad, probabilidad, folio, efectividad'
 
-export async function listarRiesgos(): Promise<Riesgo[]> {
-  const { data, error } = await supabase.from('riesgos').select(COLUMNAS_RIESGO).order('id')
-  if (error) throw new Error(`Tabla "riesgos": ${error.message}`)
-  return data as Riesgo[]
-}
+export const tablaRiesgos = tablaRegistros<Riesgo, RiesgoInput>('riesgos', COLUMNAS)
 
-export async function crearRiesgo(riesgo: RiesgoInput): Promise<Riesgo> {
-  const { data, error } = await supabase
-    .from('riesgos')
-    .insert(riesgo)
-    .select(COLUMNAS_RIESGO)
-    .single()
-  if (error) throw new Error(error.message)
-  return data as Riesgo
-}
-
-export async function actualizarRiesgo(id: number, riesgo: RiesgoInput): Promise<Riesgo> {
-  const { data, error } = await supabase
-    .from('riesgos')
-    .update(riesgo)
-    .eq('id', id)
-    .select(COLUMNAS_RIESGO)
-    .single()
-  if (error) throw new Error(error.message)
-  return data as Riesgo
-}
-
-export async function borrarRiesgo(id: number) {
-  const { error } = await supabase.from('riesgos').delete().eq('id', id)
-  if (error) throw new Error(error.message)
+export async function cargarCatalogosRiesgos(): Promise<CatalogosRiesgos> {
+  const [procesos, tiposRiesgo, fuentes, causas, consecuencias, severidad, probabilidad, mat, evaluacion] =
+    await Promise.all([
+      nombres('procesos_riesgos'),
+      nombres('tipo'),
+      nombres('fuente_actividad'),
+      nombres('causa'),
+      nombres('consecuencia_impacto'),
+      escala('severidad'),
+      escala('probabilidad'),
+      matriz('matriz_riesgo', 'severidad', 'probabilidad'),
+      rangos('evaluacion_riesgos'),
+    ])
+  return {
+    procesos,
+    tiposRiesgo,
+    fuentes,
+    causas,
+    consecuencias,
+    severidad,
+    probabilidad,
+    matriz: mat,
+    evaluacion,
+  }
 }
