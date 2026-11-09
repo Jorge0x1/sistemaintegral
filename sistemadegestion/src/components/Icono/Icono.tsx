@@ -9,6 +9,7 @@ const iconos = {
   atras: <path d="M15 6l-6 6 6 6" />,
   info: <path d="M12 11v7M12 6h.01" />,
   calendario: <path d="M7 3v4M17 3v4M4 10h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" />,
+  lista: <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />,
 }
 
 export type NombreIcono = keyof typeof iconos

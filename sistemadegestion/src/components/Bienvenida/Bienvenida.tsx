@@ -1,21 +1,21 @@
 import './Bienvenida.css'
 
-type Props = {
-  onCalidad: () => void
-  onOportunidades: () => void
+export type OpcionInicio = {
+  titulo: string
+  onAbrir: () => void
 }
 
-function Bienvenida({ onCalidad, onOportunidades }: Props) {
+// Portada: un botón por cada dashboard del sistema
+function Bienvenida({ opciones }: { opciones: OpcionInicio[] }) {
   return (
     <main className="bienvenida">
       <h1>Sistema de Gestión Integral</h1>
       <div className="bienvenida-acciones">
-        <button type="button" className="bienvenida-boton" onClick={onCalidad}>
-          Gestión de Calidad
-        </button>
-        <button type="button" className="bienvenida-boton" onClick={onOportunidades}>
-          Evaluación de Oportunidades
-        </button>
+        {opciones.map((o) => (
+          <button key={o.titulo} type="button" className="bienvenida-boton" onClick={o.onAbrir}>
+            {o.titulo}
+          </button>
+        ))}
       </div>
     </main>
   )

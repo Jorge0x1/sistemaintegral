@@ -14,8 +14,9 @@ export function calcularNivel(
   return { valor, descripcion: rango?.descripcion ?? 'Sin rango definido' }
 }
 
-// "Extremo: Es necesario…" → "extremo"; se usa para el color del nivel
+// Primera palabra de la descripción, para el color del nivel:
+// "Extremo: Es necesario…" → "extremo", "Crítico-Significativo: …" → "critico"
 export function claseNivel(descripcion: string) {
-  const nombre = descripcion.split(':')[0].trim().toLowerCase()
+  const nombre = descripcion.trim().split(/[\s:-]/)[0].toLowerCase()
   return nombre.normalize('NFD').replace(/[^a-z]/g, '')
 }

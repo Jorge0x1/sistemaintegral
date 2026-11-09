@@ -51,3 +51,12 @@
 .nivel-factible {
   background: #ffff00;
 }
+
+/* Aspectos ambientales (evaluacion_aia); "bajo" y "alto" comparten color con riesgos */
+.nivel-medio {
+  background: #ffff00;
+}
+
+.nivel-critico {
+  background: #ff0000;
+}
