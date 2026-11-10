@@ -5,35 +5,56 @@ import { moduloAspectos } from './config/aspectos'
 import { moduloOportunidades } from './config/oportunidades'
 import { moduloRiesgos } from './config/riesgos'
 
-type Vista = 'inicio' | 'calidad' | 'oportunidades' | 'aspectos'
-
-const TITULOS: Record<Exclude<Vista, 'inicio'>, string> = {
-  calidad: 'Gestión de Calidad',
-  oportunidades: 'Evaluación de Oportunidades',
-  aspectos: 'Matriz de Aspectos e Impactos Ambientales',
-}
+// Menús: inicio → matriz de riesgos (submenú). Dashboards: calidad, oportunidades, aspectos.
+type Vista = 'inicio' | 'riesgos' | 'calidad' | 'oportunidades' | 'aspectos'
 
 function App() {
   const [vista, setVista] = useState<Vista>('inicio')
-  const volver = () => setVista('inicio')
+  const ir = (v: Vista) => () => setVista(v)
 
-  if (vista === 'calidad') {
-    return <PanelRegistros key={vista} titulo={TITULOS[vista]} modulo={moduloRiesgos} onVolver={volver} />
+  switch (vista) {
+    case 'riesgos':
+      return (
+        <Bienvenida
+          titulo="Matriz de Riesgos"
+          onVolver={ir('inicio')}
+          opciones={[{ titulo: 'Gestión de Calidad', onAbrir: ir('calidad') }]}
+        />
+      )
+    case 'calidad':
+      return (
+        <PanelRegistros key={vista} titulo="Gestión de Calidad" modulo={moduloRiesgos} onVolver={ir('riesgos')} />
+      )
+    case 'oportunidades':
+      return (
+        <PanelRegistros
+          key={vista}
+          titulo="Evaluación de Oportunidades"
+          modulo={moduloOportunidades}
+          onVolver={ir('inicio')}
+        />
+      )
+    case 'aspectos':
+      return (
+        <PanelRegistros
+          key={vista}
+          titulo="Matriz de Aspectos e Impactos Ambientales"
+          modulo={moduloAspectos}
+          onVolver={ir('inicio')}
+        />
+      )
+    default:
+      return (
+        <Bienvenida
+          titulo="Sistema de Gestión Integral"
+          opciones={[
+            { titulo: 'Matriz de Riesgos', onAbrir: ir('riesgos') },
+            { titulo: 'Evaluación de Oportunidades', onAbrir: ir('oportunidades') },
+            { titulo: 'Matriz de Aspectos e Impactos Ambientales', onAbrir: ir('aspectos') },
+          ]}
+        />
+      )
   }
-  if (vista === 'oportunidades') {
-    return <PanelRegistros key={vista} titulo={TITULOS[vista]} modulo={moduloOportunidades} onVolver={volver} />
-  }
-  if (vista === 'aspectos') {
-    return <PanelRegistros key={vista} titulo={TITULOS[vista]} modulo={moduloAspectos} onVolver={volver} />
-  }
-  return (
-    <Bienvenida
-      opciones={(Object.keys(TITULOS) as (keyof typeof TITULOS)[]).map((v) => ({
-        titulo: TITULOS[v],
-        onAbrir: () => setVista(v),
-      }))}
-    />
-  )
 }
 
 export default App

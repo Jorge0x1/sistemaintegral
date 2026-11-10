@@ -12,11 +12,11 @@ export async function cargarCatalogosRiesgos(): Promise<CatalogosRiesgos> {
     await Promise.all([
       nombres('procesos_riesgos'),
       nombres('tipo'),
-      nombres('fuente_actividad'),
-      nombres('causa'),
-      nombres('consecuencia_impacto'),
-      escala('severidad'),
-      escala('probabilidad'),
+      nombres('actividad_riesgos_gc'),
+      nombres('causa_riesgo'),
+      nombres('consecuencia_riesgo'),
+      escala('severidad_riesgo'),
+      escala('probabilidad_riesgo'),
       matriz('matriz_riesgo', 'severidad', 'probabilidad'),
       rangos('evaluacion_riesgos'),
     ])

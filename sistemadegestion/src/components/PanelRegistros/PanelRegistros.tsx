@@ -24,7 +24,7 @@ function PanelRegistros<R extends Registro, I, B, C>({ titulo, modulo, onVolver 
         inicio={
           <BotonIcono
             icono="atras"
-            titulo="Volver al inicio"
+            titulo="Volver"
             disabled={r.editando !== null}
             onClick={onVolver}
           />

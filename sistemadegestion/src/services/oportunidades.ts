@@ -12,8 +12,8 @@ export async function cargarCatalogosOportunidades(): Promise<CatalogosOportunid
     nombres('tipo'),
     nombres('procesos_eo'),
     nombres('origen_eo'),
-    escala('impacto'),
-    escala('tiempo'),
+    escala('impacto_eo'),
+    escala('tiempo_eo'),
     matriz('matriz_eo', 'impacto', 'tiempo'),
     rangos('evaluacion_oportunidades'),
   ])
