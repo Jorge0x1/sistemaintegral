@@ -12,7 +12,7 @@ export const tablaAspectos = tablaRegistros<AspectoAmbiental, AspectoAmbientalIn
 
 export async function cargarCatalogosAspectos(): Promise<CatalogosAspectos> {
   const [procesos, impactos, frecuencia, severidad, mat, evaluacion] = await Promise.all([
-    nombres('procesos_aia'),
+    nombres('procesos_aia_meps'),
     nombres('impacto_aia'),
     escala('frecuencia_aia'),
     escala('severidad_aia'),
