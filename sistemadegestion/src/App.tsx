@@ -9,10 +9,6 @@ import { crearModuloRiesgos } from './config/riesgos'
 // Para agregar un proceso basta otra entrada aquí. Se crean una sola vez, fuera del componente,
 // porque el dashboard recarga datos cuando cambia el módulo.
 const MATRICES_RIESGOS = {
-  calidad: {
-    titulo: 'Gestión de Calidad',
-    modulo: crearModuloRiesgos('Gestión de Calidad', 'actividad_riesgos_gc'),
-  },
   meps: {
     titulo: 'Manufactura EPS',
     modulo: crearModuloRiesgos('Manufactura EPS', 'actividad_riesgos_meps'),
@@ -65,6 +61,10 @@ const MATRICES_RIESGOS = {
   mash: {
     titulo: 'MASH',
     modulo: crearModuloRiesgos('MASH', 'actividad_riesgos_mash'),
+  },
+  calidad: {
+    titulo: 'Gestión de Calidad',
+    modulo: crearModuloRiesgos('Gestión de Calidad', 'actividad_riesgos_gc'),
   },
   sesg: {
     titulo: 'Sustentabilidad & ESG',
