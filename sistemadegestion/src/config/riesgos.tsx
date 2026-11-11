@@ -22,18 +22,22 @@ const campo = camposDe<BorradorRiesgo, CatalogosRiesgos>()
 const nivel = (cat: CatalogosRiesgos, s: number | null, p: number | null) =>
   calcularNivel(cat.matriz, cat.evaluacion, s, p)
 
-export const moduloRiesgos: Modulo<Riesgo, RiesgoInput, BorradorRiesgo, CatalogosRiesgos> = {
+// Matriz de riesgos de un proceso: las filas nuevas ya traen ese proceso (fijo)
+// y la columna Fuente / Actividad sugiere los valores de su propia tabla de actividades
+export const crearModuloRiesgos = (
+  proceso: string,
+  tablaActividades: string,
+): Modulo<Riesgo, RiesgoInput, BorradorRiesgo, CatalogosRiesgos> => ({
   nombre: 'riesgo',
   textoVacio: 'No hay riesgos registrados. Usa el botón + para agregar uno.',
-  ...tablaRiesgos,
-  cargarCatalogos: cargarCatalogosRiesgos,
-  vacio: borradorRiesgoVacio,
+  ...tablaRiesgos(proceso),
+  cargarCatalogos: () => cargarCatalogosRiesgos(tablaActividades),
+  vacio: () => ({ ...borradorRiesgoVacio(), proceso }),
   aBorrador: aBorradorRiesgo,
   aDatos: aDatosRiesgo,
   faltantes: faltantesRiesgo,
   confirmarBorrado: (r) => `¿Borrar el riesgo N. ${r.id} (${r.evento_riesgo})?`,
   sugerencias: (cat) => [
-    ['dl-procesos', cat.procesos],
     ['dl-fuentes', cat.fuentes],
     ['dl-causas', cat.causas],
     ['dl-consecuencias', cat.consecuencias],
@@ -52,7 +56,7 @@ export const moduloRiesgos: Modulo<Riesgo, RiesgoInput, BorradorRiesgo, Catalogo
           titulo: 'Proceso',
           className: 'col-media',
           ver: (r) => r.proceso,
-          editar: campo.texto('proceso', 'Proceso', { lista: 'dl-procesos', placeholder: 'Proceso' }),
+          editar: (b) => b.proceso,
         },
         {
           titulo: 'Fecha de incorporación',
@@ -157,4 +161,4 @@ export const moduloRiesgos: Modulo<Riesgo, RiesgoInput, BorradorRiesgo, Catalogo
       ],
     },
   ],
-}
+})

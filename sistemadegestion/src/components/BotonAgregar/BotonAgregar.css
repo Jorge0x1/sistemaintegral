@@ -8,11 +8,23 @@
   background: var(--accent);
   color: var(--on-accent);
   cursor: pointer;
-  transition: filter 0.15s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
+/* Mismo efecto que los botones del menú: se ilumina y se levanta un poco */
 .agregar:hover:not(:disabled) {
-  filter: brightness(1.08);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.agregar:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+  transition-duration: 0.05s;
 }
 
 .agregar svg {

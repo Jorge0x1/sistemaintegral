@@ -1,10 +1,15 @@
 import { supabase } from './supabase'
 
-// Operaciones de lectura y escritura de una tabla de registros con llave "id"
-export function tablaRegistros<R, I extends object>(tabla: string, columnas: string) {
+// Operaciones de lectura y escritura de una tabla de registros con llave "id".
+// "filtro" limita el listado a las filas con esos valores (p. ej. { proceso: "Manufactura EPS" })
+export function tablaRegistros<R, I extends object>(
+  tabla: string,
+  columnas: string,
+  filtro: Record<string, string> = {},
+) {
   return {
     listar: async (): Promise<R[]> => {
-      const { data, error } = await supabase.from(tabla).select(columnas).order('id')
+      const { data, error } = await supabase.from(tabla).select(columnas).match(filtro).order('id')
       if (error) throw new Error(`Tabla "${tabla}": ${error.message}`)
       return data as unknown as R[]
     },

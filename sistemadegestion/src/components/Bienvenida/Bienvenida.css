@@ -46,11 +46,26 @@
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: filter 0.15s ease;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
+/* Se ilumina y se levanta ligeramente al pasar el cursor; baja al presionarlo */
 .bienvenida-boton:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 16px color-mix(in srgb, var(--accent) 30%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.bienvenida-boton:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  transition-duration: 0.05s;
 }
 
 .bienvenida-boton:focus-visible {

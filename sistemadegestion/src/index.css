@@ -66,3 +66,17 @@ button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* Quien pide menos movimiento en su sistema: los botones solo se iluminan, no se desplazan */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  button:hover,
+  button:active {
+    transform: none !important;
+  }
+}
