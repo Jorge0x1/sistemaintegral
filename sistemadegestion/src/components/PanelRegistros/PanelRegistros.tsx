@@ -14,6 +14,8 @@ type Props<R extends Registro, I, B, C> = {
   onVolver: () => void
   // false = modo lectura: sin botón agregar ni acciones por fila
   editable: boolean
+  // Tras guardar o borrar: avisa que hay cambios sin publicar
+  onCambio?: () => void
 }
 
 // Dashboard completo de un módulo: encabezado, avisos y tabla (editable solo para editores)
@@ -22,8 +24,9 @@ function PanelRegistros<R extends Registro, I, B, C>({
   modulo,
   onVolver,
   editable,
+  onCambio,
 }: Props<R, I, B, C>) {
-  const r = useRegistros(modulo)
+  const r = useRegistros(modulo, editable, onCambio)
   const { cancelar } = r
 
   // Si la sesión se cierra a media edición, se descarta la fila abierta

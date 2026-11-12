@@ -1,27 +1,27 @@
-.barra-sesion {
+.barra-sesion-contenedor {
   position: fixed;
   top: 12px;
   right: 16px;
   z-index: 10;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
   max-width: calc(100vw - 32px);
-  padding: 6px 6px 6px 12px;
+}
+
+.barra-sesion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 6px 6px 6px 14px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
   box-shadow: var(--shadow);
   font-size: 13px;
   color: var(--text);
-}
-
-.barra-sesion-punto {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
 }
 
 .barra-sesion-correo {
@@ -32,6 +32,9 @@
 
 .barra-sesion button {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 4px 12px;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
@@ -39,9 +42,53 @@
   color: var(--text-h);
   font: inherit;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease,
+    filter 0.15s ease;
 }
 
-.barra-sesion button:hover {
+.barra-sesion button:hover:not(:disabled) {
   background: var(--group-bg);
+}
+
+/* Sin cambios pendientes el botón queda apagado; con cambios se resalta en el color de la marca */
+.barra-sesion-publicar:disabled {
+  opacity: 1;
+  color: var(--text);
+  border-style: dashed;
+}
+
+.barra-sesion .barra-sesion-publicar.pendiente {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.barra-sesion .barra-sesion-publicar.pendiente:hover:not(:disabled) {
+  background: var(--accent);
+  filter: brightness(1.1);
+}
+
+.barra-sesion-punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: barra-sesion-latido 1.6s ease-in-out infinite;
+}
+
+@keyframes barra-sesion-latido {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.barra-sesion-error {
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--alert-bg);
+  color: var(--alert-text);
+  font-size: 13px;
 }

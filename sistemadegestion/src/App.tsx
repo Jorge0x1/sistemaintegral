@@ -6,6 +6,7 @@ import PanelRegistros from './components/PanelRegistros/PanelRegistros'
 import { moduloAspectos } from './config/aspectos'
 import { moduloOportunidades } from './config/oportunidades'
 import { crearModuloRiesgos } from './config/riesgos'
+import { usePublicacion } from './hooks/usePublicacion'
 import { useSesion } from './hooks/useSesion'
 import { cerrarSesion } from './services/sesion'
 
@@ -94,6 +95,7 @@ function App() {
   const [vista, setVista] = useState<Vista>('inicio')
   const ir = (v: Vista) => () => setVista(v)
   const { editor } = useSesion()
+  const publicacion = usePublicacion(editor)
   const [acceso, setAcceso] = useState(pideAcceso)
 
   // Por si se escribe #editar con la página ya abierta
@@ -120,6 +122,7 @@ function App() {
           modulo={modulo}
           onVolver={ir('riesgos')}
           editable={editable}
+          onCambio={publicacion.revisar}
         />
       )
     }
@@ -144,6 +147,7 @@ function App() {
             modulo={moduloOportunidades}
             onVolver={ir('inicio')}
             editable={editable}
+            onCambio={publicacion.revisar}
           />
         )
       case 'aspectos':
@@ -154,6 +158,7 @@ function App() {
             modulo={moduloAspectos}
             onVolver={ir('inicio')}
             editable={editable}
+            onCambio={publicacion.revisar}
           />
         )
       default:
@@ -173,7 +178,16 @@ function App() {
   return (
     <>
       {pantalla()}
-      {editor && <BarraSesion editor={editor} onCerrarSesion={cerrarSesion} />}
+      {editor && (
+        <BarraSesion
+          editor={editor}
+          pendiente={publicacion.pendiente}
+          publicando={publicacion.publicando}
+          error={publicacion.error}
+          onPublicar={publicacion.publicar}
+          onCerrarSesion={cerrarSesion}
+        />
+      )}
       {acceso && !editor && <InicioSesion onListo={cerrarAcceso} onCerrar={cerrarAcceso} />}
     </>
   )

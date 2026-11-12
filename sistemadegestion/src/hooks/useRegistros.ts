@@ -2,8 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { NUEVO } from '../types/registros'
 import type { Cambiar, Editando, Modulo, Registro } from '../types/registros'
 
-// Estado y acciones de un dashboard de registros: carga, edición en línea y persistencia
-export function useRegistros<R extends Registro, I, B, C>(modulo: Modulo<R, I, B, C>) {
+// Estado y acciones de un dashboard de registros: carga, edición en línea y persistencia.
+// editable: el editor ve y modifica el borrador; si no, se muestra lo publicado.
+// onCambio: se llama tras guardar o borrar (hay cambios sin publicar).
+export function useRegistros<R extends Registro, I, B, C>(
+  modulo: Modulo<R, I, B, C>,
+  editable: boolean,
+  onCambio?: () => void,
+) {
   const [cat, setCat] = useState<C | null>(null)
   const [registros, setRegistros] = useState<R[]>([])
   const [errorCarga, setErrorCarga] = useState<string | null>(null)
@@ -12,14 +18,21 @@ export function useRegistros<R extends Registro, I, B, C>(modulo: Modulo<R, I, B
   const [borrador, setBorrador] = useState<B>(modulo.vacio)
   const [guardando, setGuardando] = useState(false)
 
+  // Se recarga al iniciar o cerrar sesión: cambia entre borrador y publicado
   useEffect(() => {
-    Promise.all([modulo.cargarCatalogos(), modulo.listar()])
+    let vigente = true
+    Promise.all([modulo.cargarCatalogos(), modulo.listar(!editable)])
       .then(([c, r]) => {
+        if (!vigente) return
         setCat(() => c)
         setRegistros(r)
+        setErrorCarga(null)
       })
-      .catch((e: Error) => setErrorCarga(e.message))
-  }, [modulo])
+      .catch((e: Error) => vigente && setErrorCarga(e.message))
+    return () => {
+      vigente = false
+    }
+  }, [modulo, editable])
 
   const cambiar: Cambiar<B> = (campo, valor) => setBorrador((b) => ({ ...b, [campo]: valor }))
 
@@ -59,6 +72,7 @@ export function useRegistros<R extends Registro, I, B, C>(modulo: Modulo<R, I, B
       }
       setEditando(null)
       setAviso(null)
+      onCambio?.()
     } catch (e) {
       setAviso(`No se pudo guardar: ${(e as Error).message}`)
     } finally {
@@ -71,6 +85,7 @@ export function useRegistros<R extends Registro, I, B, C>(modulo: Modulo<R, I, B
     try {
       await modulo.borrar(r.id)
       setRegistros((rs) => rs.filter((x) => x.id !== r.id))
+      onCambio?.()
     } catch (e) {
       setAviso(`No se pudo borrar: ${(e as Error).message}`)
     }

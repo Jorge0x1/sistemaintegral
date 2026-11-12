@@ -50,7 +50,8 @@ export type Modulo<R extends Registro, I, B, C> = {
   grupos: Grupo<R, B, C>[]
   sugerencias: (cat: C) => [id: string, valores: string[]][]
   cargarCatalogos: () => Promise<C>
-  listar: () => Promise<R[]>
+  // publicados: true en modo lectura (lo publicado), false para editores (el borrador)
+  listar: (publicados: boolean) => Promise<R[]>
   crear: (datos: I) => Promise<R>
   actualizar: (id: number, datos: I) => Promise<R>
   borrar: (id: number) => Promise<void>
