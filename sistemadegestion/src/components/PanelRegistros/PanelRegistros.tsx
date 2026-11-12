@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Alerta from '../Alerta/Alerta'
 import BotonAgregar from '../BotonAgregar/BotonAgregar'
 import BotonIcono from '../BotonIcono/BotonIcono'
@@ -11,11 +12,24 @@ type Props<R extends Registro, I, B, C> = {
   titulo: string
   modulo: Modulo<R, I, B, C>
   onVolver: () => void
+  // false = modo lectura: sin botón agregar ni acciones por fila
+  editable: boolean
 }
 
-// Dashboard completo de un módulo: encabezado, avisos y tabla editable
-function PanelRegistros<R extends Registro, I, B, C>({ titulo, modulo, onVolver }: Props<R, I, B, C>) {
+// Dashboard completo de un módulo: encabezado, avisos y tabla (editable solo para editores)
+function PanelRegistros<R extends Registro, I, B, C>({
+  titulo,
+  modulo,
+  onVolver,
+  editable,
+}: Props<R, I, B, C>) {
   const r = useRegistros(modulo)
+  const { cancelar } = r
+
+  // Si la sesión se cierra a media edición, se descarta la fila abierta
+  useEffect(() => {
+    if (!editable) cancelar()
+  }, [editable, cancelar])
 
   return (
     <main className="dashboard">
@@ -30,11 +44,13 @@ function PanelRegistros<R extends Registro, I, B, C>({ titulo, modulo, onVolver 
           />
         }
       >
-        <BotonAgregar
-          titulo={`Agregar ${modulo.nombre}`}
-          disabled={!r.cat || r.editando !== null}
-          onClick={r.nuevo}
-        />
+        {editable && (
+          <BotonAgregar
+            titulo={`Agregar ${modulo.nombre}`}
+            disabled={!r.cat || r.editando !== null}
+            onClick={r.nuevo}
+          />
+        )}
       </Encabezado>
 
       {r.errorCarga && (
@@ -50,6 +66,7 @@ function PanelRegistros<R extends Registro, I, B, C>({ titulo, modulo, onVolver 
         textoVacio={modulo.textoVacio}
         sugerencias={r.cat ? modulo.sugerencias(r.cat) : []}
         cat={r.cat}
+        editable={editable}
         registros={r.registros}
         cargando={!r.cat && !r.errorCarga}
         editando={r.editando}

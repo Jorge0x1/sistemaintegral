@@ -8,13 +8,20 @@ type Props = {
   titulo: string
   onCerrar: () => void
   children: ReactNode
+  // Ancho máximo en px (por defecto 680)
+  ancho?: number
 }
 
-function Modal({ titulo, onCerrar, children }: Props) {
+function Modal({ titulo, onCerrar, children, ancho }: Props) {
   const dialogo = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
-    if (!dialogo.current?.open) dialogo.current?.showModal()
+    const d = dialogo.current
+    if (d && !d.open) {
+      d.showModal()
+      // showModal enfoca el primer botón (la X); si hay un campo, mejor empezar ahí
+      d.querySelector<HTMLElement>('input, select, textarea')?.focus()
+    }
   }, [])
 
   // Se monta en body para no heredar estilos de la tabla. Las teclas no deben llegar
@@ -23,6 +30,7 @@ function Modal({ titulo, onCerrar, children }: Props) {
     <dialog
       ref={dialogo}
       className="modal"
+      style={ancho ? { width: `min(${ancho}px, calc(100vw - 32px))` } : undefined}
       aria-label={titulo}
       onClose={onCerrar}
       onKeyDown={(e) => e.stopPropagation()}

@@ -10,6 +10,7 @@ type Props<R extends Registro, B, C> = {
   textoVacio: string
   sugerencias: [id: string, valores: string[]][]
   cat: C | null
+  editable: boolean
   registros: R[]
   cargando: boolean
   editando: Editando
@@ -28,6 +29,7 @@ function TablaRegistros<R extends Registro, B, C>({
   textoVacio,
   sugerencias,
   cat,
+  editable,
   registros,
   cargando,
   editando,
@@ -41,7 +43,7 @@ function TablaRegistros<R extends Registro, B, C>({
 }: Props<R, B, C>) {
   const columnas = grupos.flatMap((g) => g.columnas)
   const conGrupos = grupos.some((g) => g.titulo)
-  const totalColumnas = columnas.length + 1
+  const totalColumnas = columnas.length + (editable ? 1 : 0)
 
   function filaEdicion(c: C, key?: number) {
     return (
@@ -78,14 +80,14 @@ function TablaRegistros<R extends Registro, B, C>({
                     {g.titulo}
                   </th>
                 ))}
-                <th rowSpan={2} className="grupo acciones-th">Acciones</th>
+                {editable && <th rowSpan={2} className="grupo acciones-th">Acciones</th>}
               </tr>
             )}
             <tr>
               {columnas.map((c) => (
                 <th key={c.titulo}>{c.titulo}</th>
               ))}
-              {!conGrupos && <th className="acciones-th">Acciones</th>}
+              {!conGrupos && editable && <th className="acciones-th">Acciones</th>}
             </tr>
           </thead>
           <tbody>
@@ -110,6 +112,7 @@ function TablaRegistros<R extends Registro, B, C>({
                     columnas={columnas}
                     cat={cat}
                     nombre={nombre}
+                    editable={editable}
                     bloqueada={editando !== null}
                     onEditar={onEditar}
                     onBorrar={onBorrar}

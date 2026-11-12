@@ -8,6 +8,7 @@ type Props<R extends Registro, B, C> = {
   columnas: Columna<R, B, C>[]
   cat: C
   nombre: string
+  editable: boolean
   bloqueada: boolean
   onEditar: (r: R) => void
   onBorrar: (r: R) => void
@@ -18,6 +19,7 @@ function FilaRegistro<R extends Registro, B, C>({
   columnas,
   cat,
   nombre,
+  editable,
   bloqueada,
   onEditar,
   onBorrar,
@@ -29,6 +31,7 @@ function FilaRegistro<R extends Registro, B, C>({
           {col.ver(registro, cat)}
         </td>
       ))}
+      {editable && (
       <CeldaAcciones>
         <BotonIcono
           icono="editar"
@@ -46,6 +49,7 @@ function FilaRegistro<R extends Registro, B, C>({
           onClick={() => onBorrar(registro)}
         />
       </CeldaAcciones>
+      )}
     </tr>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { NUEVO } from '../types/registros'
 import type { Cambiar, Editando, Modulo, Registro } from '../types/registros'
 
@@ -35,10 +35,11 @@ export function useRegistros<R extends Registro, I, B, C>(modulo: Modulo<R, I, B
     setAviso(null)
   }
 
-  function cancelar() {
+  // Estable entre renders: el panel la usa en un efecto al cerrarse la sesión
+  const cancelar = useCallback(() => {
     setEditando(null)
     setAviso(null)
-  }
+  }, [])
 
   async function guardar() {
     const falta = modulo.faltantes(borrador)

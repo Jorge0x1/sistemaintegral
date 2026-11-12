@@ -9,8 +9,8 @@
   --header-bg: #fafbfb;
   --group-bg: #eef1f4;
   --row-hover: #f7f9fa;
-  --edit-bg: #eef4f7;
-  --accent: #1d5b79;
+  --edit-bg: #eef6f0;
+  --accent: #1e7d43;
   --on-accent: #fff;
   --alert-bg: #fef2f2;
   --alert-text: #991b1b;
@@ -39,9 +39,9 @@
     --header-bg: #1d2126;
     --group-bg: #23292f;
     --row-hover: #1e2328;
-    --edit-bg: #1b262d;
-    --accent: #7db4cc;
-    --on-accent: #0f1a20;
+    --edit-bg: #1a2a20;
+    --accent: #6cc58a;
+    --on-accent: #0d1f14;
     --alert-bg: #3b1d1d;
     --alert-text: #fecaca;
   }

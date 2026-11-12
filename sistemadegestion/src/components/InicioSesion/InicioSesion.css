@@ -1,0 +1,54 @@
+.inicio-sesion {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.inicio-sesion label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.inicio-sesion input {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.inicio-sesion input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.inicio-sesion-error {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--alert-bg);
+  color: var(--alert-text);
+  font-size: 14px;
+}
+
+.inicio-sesion button {
+  margin-top: 4px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.inicio-sesion button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}

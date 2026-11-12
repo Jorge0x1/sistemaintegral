@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import BarraSesion from './components/BarraSesion/BarraSesion'
 import Bienvenida from './components/Bienvenida/Bienvenida'
+import InicioSesion from './components/InicioSesion/InicioSesion'
 import PanelRegistros from './components/PanelRegistros/PanelRegistros'
 import { moduloAspectos } from './config/aspectos'
 import { moduloOportunidades } from './config/oportunidades'
 import { crearModuloRiesgos } from './config/riesgos'
+import { useSesion } from './hooks/useSesion'
+import { cerrarSesion } from './services/sesion'
 
 // Matrices de riesgos por proceso: mismo dashboard, cambia el proceso y su catálogo de actividades.
 // Para agregar un proceso basta otra entrada aquí. Se crean una sola vez, fuera del componente,
@@ -77,57 +81,102 @@ type Vista = 'inicio' | 'riesgos' | 'oportunidades' | 'aspectos' | MatrizRiesgos
 
 const esMatrizRiesgos = (v: Vista): v is MatrizRiesgos => v in MATRICES_RIESGOS
 
+// Acceso discreto de editores: tusitio/#editar abre el formulario de inicio de sesión.
+// Con "#" funciona en cualquier hosting sin configurar redirecciones.
+const HASH_EDITAR = '#editar'
+const pideAcceso = () => window.location.hash === HASH_EDITAR
+
+function quitarHash() {
+  history.replaceState(null, '', window.location.pathname + window.location.search)
+}
+
 function App() {
   const [vista, setVista] = useState<Vista>('inicio')
   const ir = (v: Vista) => () => setVista(v)
+  const { editor } = useSesion()
+  const [acceso, setAcceso] = useState(pideAcceso)
 
-  if (esMatrizRiesgos(vista)) {
-    const { titulo, modulo } = MATRICES_RIESGOS[vista]
-    return <PanelRegistros key={vista} titulo={titulo} modulo={modulo} onVolver={ir('riesgos')} />
+  // Por si se escribe #editar con la página ya abierta
+  useEffect(() => {
+    const revisar = () => setAcceso(pideAcceso())
+    window.addEventListener('hashchange', revisar)
+    return () => window.removeEventListener('hashchange', revisar)
+  }, [])
+
+  function cerrarAcceso() {
+    quitarHash()
+    setAcceso(false)
   }
 
-  switch (vista) {
-    case 'riesgos':
-      return (
-        <Bienvenida
-          titulo="Matriz de Riesgos"
-          onVolver={ir('inicio')}
-          opciones={(Object.keys(MATRICES_RIESGOS) as MatrizRiesgos[]).map((v) => ({
-            titulo: MATRICES_RIESGOS[v].titulo,
-            onAbrir: ir(v),
-          }))}
-        />
-      )
-    case 'oportunidades':
+  function pantalla() {
+    const editable = editor !== null
+
+    if (esMatrizRiesgos(vista)) {
+      const { titulo, modulo } = MATRICES_RIESGOS[vista]
       return (
         <PanelRegistros
           key={vista}
-          titulo="Evaluación de Oportunidades"
-          modulo={moduloOportunidades}
-          onVolver={ir('inicio')}
+          titulo={titulo}
+          modulo={modulo}
+          onVolver={ir('riesgos')}
+          editable={editable}
         />
       )
-    case 'aspectos':
-      return (
-        <PanelRegistros
-          key={vista}
-          titulo="Matriz de Aspectos e Impactos Ambientales"
-          modulo={moduloAspectos}
-          onVolver={ir('inicio')}
-        />
-      )
-    default:
-      return (
-        <Bienvenida
-          titulo="Sistema de Gestión Integral"
-          opciones={[
-            { titulo: 'Matriz de Riesgos', onAbrir: ir('riesgos') },
-            { titulo: 'Evaluación de Oportunidades', onAbrir: ir('oportunidades') },
-            { titulo: 'Matriz de Aspectos e Impactos Ambientales', onAbrir: ir('aspectos') },
-          ]}
-        />
-      )
+    }
+
+    switch (vista) {
+      case 'riesgos':
+        return (
+          <Bienvenida
+            titulo="Matriz de Riesgos"
+            onVolver={ir('inicio')}
+            opciones={(Object.keys(MATRICES_RIESGOS) as MatrizRiesgos[]).map((v) => ({
+              titulo: MATRICES_RIESGOS[v].titulo,
+              onAbrir: ir(v),
+            }))}
+          />
+        )
+      case 'oportunidades':
+        return (
+          <PanelRegistros
+            key={vista}
+            titulo="Evaluación de Oportunidades"
+            modulo={moduloOportunidades}
+            onVolver={ir('inicio')}
+            editable={editable}
+          />
+        )
+      case 'aspectos':
+        return (
+          <PanelRegistros
+            key={vista}
+            titulo="Matriz de Aspectos e Impactos Ambientales"
+            modulo={moduloAspectos}
+            onVolver={ir('inicio')}
+            editable={editable}
+          />
+        )
+      default:
+        return (
+          <Bienvenida
+            titulo="Sistema de Gestión Integral"
+            opciones={[
+              { titulo: 'Matriz de Riesgos', onAbrir: ir('riesgos') },
+              { titulo: 'Evaluación de Oportunidades', onAbrir: ir('oportunidades') },
+              { titulo: 'Matriz de Aspectos e Impactos Ambientales', onAbrir: ir('aspectos') },
+            ]}
+          />
+        )
+    }
   }
+
+  return (
+    <>
+      {pantalla()}
+      {editor && <BarraSesion editor={editor} onCerrarSesion={cerrarSesion} />}
+      {acceso && !editor && <InicioSesion onListo={cerrarAcceso} onCerrar={cerrarAcceso} />}
+    </>
+  )
 }
 
 export default App
